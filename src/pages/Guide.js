@@ -8,6 +8,7 @@ import 'prismjs/themes/prism.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { animateScroll as scroll, scroller } from 'react-scroll';
+import ModalImage from 'react-modal-image';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -264,7 +265,7 @@ const Guide = () => {
 
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === lightTheme ? darkTheme : lightTheme));
-    toast(`Byttet til ${theme === lightTheme ? 'Dark' : 'Light'} mode`);
+    toast(`Switched to ${theme === lightTheme ? 'Dark' : 'Light'} mode`);
   };
 
   const toggleSection = (index) => {
@@ -299,28 +300,41 @@ const Guide = () => {
 
   const sections = [
     {
-      title: '1. Last ned og installer MongoDB',
-      content: `Først må du laste ned den nyeste versjonen av MongoDB fra den offisielle nettsiden. Følg instruksjonene for ditt operativsystem for å installere programvaren.`,
+      title: '1. Opprett en MongoDB Atlas-konto',
+      content: `For å komme i gang med MongoDB Atlas, må du opprette en konto. Gå til [MongoDB Atlas nettsiden](https://www.mongodb.com/cloud/atlas) og registrer deg.`,
+      image: 'https://miro.medium.com/v2/resize:fit:1400/0*Ab3r6mIK4O2DSF2u.png'
     },
     {
-      title: '2. Start MongoDB serveren',
-      content: `Etter installasjonen, start MongoDB serveren ved å kjøre kommandoen ${highlightCode('mongod')} i terminalen. Sørg for at MongoDB kjører som en bakgrunnsprosess.`,
+      title: '2. Opprett en ny cluster',
+      content: `Etter registreringen, opprett en ny cluster. Klikk på "Build a Cluster" og følg instruksjonene for å sette opp din cluster.`,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiDQJMTCTzxzlArDe7vht6-mTIl8ILuUfa7GoDC93LtA&s'
     },
     {
-      title: '3. Koble til MongoDB',
-      content: `For å koble til MongoDB, åpne en ny terminal og kjør kommandoen ${highlightCode('mongo')}. Dette vil starte MongoDB klienten og koble deg til serveren.`,
+      title: '3. Koble til din cluster',
+      content: `For å koble til din cluster, klikk på "Connect" og følg instruksjonene. Du kan bruke MongoDB Compass for en grafisk brukergrensesnitt.`,
+      image: 'https://webimages.mongodb.com/_com_assets/cms/le63v44aqbia9z8j9-image2.png?auto=format%252Ccompress'
     },
     {
-      title: '4. Opprett en database og samling',
-      content: `Når du er koblet til MongoDB, kan du opprette en ny database med kommandoen ${highlightCode('use databaseName')}. Deretter kan du opprette en ny samling med kommandoen ${highlightCode("db.createCollection('collectionName')")}.`,
+      title: '4. Last ned og installer MongoDB Compass',
+      content: `Last ned MongoDB Compass fra [denne linken](https://www.mongodb.com/products/compass). Følg installasjonsinstruksjonene for ditt operativsystem.`,
+      image: 'https://miro.medium.com/v2/resize:fit:1000/1*s8PWC1Y8z6XextVQkA38Jw.jpeg'
     },
     {
-      title: '5. Sett inn dokumenter',
-      content: `For å sette inn dokumenter i samlingen, bruk kommandoen ${highlightCode("db.collectionName.insertOne({ key: 'value' })")}. Du kan også sette inn flere dokumenter med kommandoen ${highlightCode("db.collectionName.insertMany([{ key: 'value1' }, { key: 'value2' }])")}.`,
+      title: '5. Koble MongoDB Compass til din Atlas Cluster',
+      content: `Åpne MongoDB Compass og koble til din Atlas Cluster ved å bruke connection string fra Atlas. Du finner denne under "Connect" -> "Connect Your Application".`,
+      image: 'https://www.mongodb.com/docs/guides/static/e6ba87f6cb00a61df91e64eb33ebd29b/97178/cluster-m0-tier.webp'
     },
     {
-      title: '6. Hent data',
-      content: `For å hente data fra samlingen, bruk kommandoen ${highlightCode('db.collectionName.find()')}. Du kan også bruke spørringer for å hente spesifikke data, for eksempel ${highlightCode("db.collectionName.find({ key: 'value' })")}.`,
+      title: '6. Opprett en database og samling',
+      content: `Når du er koblet til MongoDB Compass, kan du opprette en ny database og samling. Klikk på "Create Database" og fyll ut detaljene.`,
+    },
+    {
+      title: '7. Sett inn dokumenter',
+      content: `For å sette inn dokumenter i samlingen, bruk MongoDB Compass GUI for å legge til nye dokumenter.`,
+    },
+    {
+      title: '8. Hent data',
+      content: `For å hente data fra samlingen, bruk MongoDB Compass GUI for å utføre spørringer.`,
     },
   ];
 
@@ -372,7 +386,7 @@ const Guide = () => {
         <MainContent>
           <Header>
             <HeaderLeft>
-              <h2>Guide: Sett opp en MongoDB server</h2>
+              <h2>Guide: Sett opp MongoDB Atlas og Compass</h2>
             </HeaderLeft>
             <div>
               <Icon onClick={toggleTheme}>
@@ -393,6 +407,13 @@ const Guide = () => {
                 </SectionTitle>
                 <SectionContent isOpen={openSections[index]}>
                   <p>{section.content}</p>
+                  {section.image && (
+                    <ModalImage
+                      small={section.image}
+                      large={section.image}
+                      alt={section.title}
+                    />
+                  )}
                 </SectionContent>
               </Section>
             ))}
